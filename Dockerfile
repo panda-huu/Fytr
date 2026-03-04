@@ -1,7 +1,7 @@
-# Use slim Alpine-based Python 3.11 (small + fast)
-FROM python:3.11-alpine3.19
+# Use latest Alpine with Python 3.11 (or upgrade to 3.12 if you prefer)
+FROM python:3.11-alpine3.20
 
-# Install system dependencies (ffmpeg, opus, libsodium + build tools)
+# Install required system packages (ffmpeg + opus + sodium + build tools)
 RUN apk update && apk upgrade && \
     apk add --no-cache \
         ffmpeg \
@@ -14,34 +14,23 @@ RUN apk update && apk upgrade && \
         make \
     && rm -rf /var/cache/apk/*
 
-# Set working directory
 WORKDIR /app
 
-# Upgrade pip & install core packages
-# Use latest compatible versions (adjust if needed after pip check)
+# Upgrade pip & install the correct packages
 RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
     pip install --no-cache-dir \
         pyrogram \
         tgcrypto \
-        pytgcalls \
-        # Optional: if you use numpy/pydub/etc in filters
-        # pydub \
-        # numpy \
+        py-tgcalls \
     && pip cache purge
 
-# Copy only your code (don't copy session string in image!)
+# Copy your bot code
 COPY main.py .
 
-# Important: NEVER put SESSION_STRING in Dockerfile or image
-# Instead → use environment variables or mounted file
+# Environment variables (fill these via docker-compose or --env)
 ENV API_ID="" \
     API_HASH="" \
     SESSION_STRING="" \
-    # Optional: timezone if you want logs in IST
     TZ=Asia/Kolkata
 
-# For microphone input in Docker → host must share audio device (not always easy)
-# If testing with test tone only → no extra flags needed
-
-# Run the bot
 CMD ["python", "main.py"]
