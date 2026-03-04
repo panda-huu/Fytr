@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  userbot:
+    build: .
+    container_name: tg-loud-userbot
+    restart: unless-stopped
+    environment:
+      - API_ID=your_api_id_here
+      - API_HASH=your_api_hash_here
+      - SESSION_STRING=1BJWap1wBuy...your_full_string...
+      - TZ=Asia/Kolkata
