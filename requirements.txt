@@ -1,0 +1,6 @@
+
+pyrogram>=2.0.106
+tgcrypto>=1.2.5
+
+# Voice chat handling (latest uses ntgcalls ~2.2.x internally)
+py-tgcalls>=2.2.8
