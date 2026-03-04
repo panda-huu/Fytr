@@ -30,7 +30,7 @@ RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
     && pip cache purge
 
 # Copy only your code (don't copy session string in image!)
-COPY userbot.py .
+COPY main.py .
 
 # Important: NEVER put SESSION_STRING in Dockerfile or image
 # Instead → use environment variables or mounted file
@@ -44,4 +44,4 @@ ENV API_ID="" \
 # If testing with test tone only → no extra flags needed
 
 # Run the bot
-CMD ["python", "userbot.py"]
+CMD ["python", "main.py"]
